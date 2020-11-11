@@ -1,0 +1,17 @@
+name: Test Code
+on: pull_request
+
+jobs:
+  unittest:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout the source branch of the PR
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name}}
+      - name: Install dependencies
+        run: npm install
+      - name: Lint code
+        run: npm run lint
+      - name: Run tests
+        run: npm run test
