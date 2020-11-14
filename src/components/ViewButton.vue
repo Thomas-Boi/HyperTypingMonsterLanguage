@@ -20,10 +20,4 @@ export default {
     font-size: 30px;
     color: red;
   }
-
-  .btn {
-    padding: 5px;
-    cursor: pointer;
-    width: 300px;
-  }
 </style>

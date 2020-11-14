@@ -13,17 +13,17 @@ export default {
 <style scoped>
   .hat {
     background-color: blue;
-    height: 60px;
-    border-radius: 120px 120px 0 0;
-    width: 120px;
+    height: 40px;
+    border-radius: 80px 90px 0 0;
+    width: 90px;
     display: flex;
   }
 
   .eye-cover {
     background-color: blue;
-    height: 20px;
-    width: 50px;
-    left: 110px;
+    height: 10px;
+    width: 40px;
+    left: 80px;
     align-self: flex-end;
     position: relative;
   }

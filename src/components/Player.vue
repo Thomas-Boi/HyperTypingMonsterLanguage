@@ -23,18 +23,19 @@ export default {
     display: inline-block;
     position: relative;
     z-index: 1;
-    left: 50%;
+    left: 20%;
+    top: 100px;
   }
 
   .head {
-    width: 120px;  
-    height: 120px;
+    width: 90px;  
+    height: 90px;
     background-color: pink;
   }
 
   .body {
-    width: 70px;  
-    height: 200px;
+    width: 60px;  
+    height: 150px;
     background-color: pink;
     margin: auto;
   }
