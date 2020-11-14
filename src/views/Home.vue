@@ -1,40 +1,80 @@
 <template>
-  <div class="home">
-    <h1 class='title'>Hyper Typing <br> Monster Language</h1>
-    <section class='right-side-section'>
-      <Button text="PLAY" target="GameScene"/>
-      <Button text="STATS" target="Stats"/>
-      <Button text="DIFFICULTY" target="Stats"/>
-      <Button text="UPLOAD YOUR OWN" target="Stats"/>
-    </section>
-    <section class='game-play-section'>
-      <Player />
-      <div class='road'> </div>
-    </section>
+  <div class="home" v-bind:class="{moving: mode == 'Game'}">
+    <TypingBox v-bind:in-game="mode == 'Game'"/>
+    <main class='mainArea'>
+      <h1 class='title' v-bind:class="{invisible: mode == 'Game'}">
+        Hyper Typing <br> Monster Language
+      </h1>
+      <ButtonSection v-bind:class="{invisible: mode == 'Game'}" v-on:play="play"/>
+      <section class='game-play-section'>
+        <Monster v-bind:in-game="mode == 'Game'"/>
+        <Player />
+        <div class='road'> </div>
+      </section>
+    </main>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Button from "../components/Button"
+import ButtonSection from "../components/ButtonSection"
 import Player from "../components/Player"
+import Monster from "../components/Monster"
+import TypingBox from "../components/TypingBox"
 
 export default {
   name: 'Home',
   components: {
-    Button,
-    Player
+    ButtonSection,
+    Player,
+    Monster,
+    TypingBox 
+  },
+  data() {
+    return {
+      mode: "Home" // can be either "Home" or "Game"
+    }
+  },
+  methods: {
+    play() {
+      this.mode = "Game"
+    }
   }
 }
 </script>
 
 <style scoped>
+  @keyframes movingBackground {
+    from {
+      background-position: 0px;
+    }
+
+    to {
+      background-position: -92.5vw;
+    }
+  }
+
+  .moving { 
+    animation-duration: 6s;
+  }
+
   .home {
+    background-image: url("../assets/background.png");
+    background-size: contain;
+    animation-name: movingBackground;
+    /* animation-duration: 15s; */
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mainArea {
     display: grid;
     grid-template-rows: 2fr 3fr;
     grid-template-columns: 2fr 1fr;
     grid-template-areas:
-      "title right-side-section"
+      "title button-section"
       "game-play-section game-play-section";
   }
 
@@ -42,18 +82,8 @@ export default {
     margin-top: 40px;
     grid-area: title;
     font-size: 50px;
+    color: white;
     text-align: center;
-  }
-
-  .right-side-section {
-    position: fixed;
-    height: 400px;
-    margin-top: 40px;
-    right: 100px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    z-index: 10;
   }
 
   .game-play-section {
@@ -64,9 +94,8 @@ export default {
 
   .road {
     background-color: black;
-    height: 200px;
+    height: 100px;
     width: 100%;
-    z-index: -1;
     position: fixed;
     bottom: 0px;
   }
