@@ -11,7 +11,7 @@
         <Player />
         <div class='road'> </div>
       </section>
-      <p> testing: {{ playerTypedTxt }}</p>
+      <p style="color: white"> testing: {{ playerTypedTxt }}</p>
     </main>
     <PlayerBox v-bind:in-game="mode == 'Game'" v-model="playerTypedTxt"/>
   </div>
@@ -40,7 +40,7 @@ export default {
       mode: "Home", // can be either "Home" or "Game"
       HTMLtxt: HTMLText,
       playerTxt: [],
-      playerTypedTxt: ""
+      playerTypedTxt: "123"
     }
   },
   methods: {
@@ -67,7 +67,7 @@ export default {
     }
 
     to {
-      background-position: -92.5vw;
+      background-position: -100vw;
     }
   }
 

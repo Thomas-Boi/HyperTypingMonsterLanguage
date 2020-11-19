@@ -1,13 +1,16 @@
 <template>
-    <textarea class='player-box' v-bind:class="{visible: inGame}" placeholder="Type Here">
-    </textarea>
+    <textarea :value="value" @input="$emit('input', $event.target.value)"
+    class='player-box' v-bind:class="{visible: inGame}" placeholder="Type Here" />
 </template>
 
 <script>
+import Vue from 'vue'
+console.log(Vue.version);
 export default {
   name: "PlayerBox",
   props: {
-    inGame: Boolean
+    inGame: Boolean,
+    value: String
   }
 }
 </script>
