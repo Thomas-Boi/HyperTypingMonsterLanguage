@@ -12,6 +12,7 @@
         <div class='road'> </div>
       </section>
     </main>
+    <PlayerBox v-bind:in-game="mode == 'Game'"/>
   </div>
 </template>
 
@@ -21,6 +22,7 @@ import ButtonSection from "../components/ButtonSection"
 import Player from "../components/Player"
 import Monster from "../components/Monster"
 import TypingBox from "../components/TypingBox"
+import PlayerBox from "../components/PlayerBox"
 
 export default {
   name: 'Home',
@@ -28,7 +30,8 @@ export default {
     ButtonSection,
     Player,
     Monster,
-    TypingBox 
+    TypingBox,
+    PlayerBox 
   },
   data() {
     return {
@@ -76,6 +79,7 @@ export default {
     grid-template-areas:
       "title button-section"
       "game-play-section game-play-section";
+    height:100vh;
   }
 
   .title {
