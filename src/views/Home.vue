@@ -11,8 +11,9 @@
         <Player />
         <div class='road'> </div>
       </section>
+      <p> testing: {{ playerTypedTxt }}</p>
     </main>
-    <PlayerBox v-bind:in-game="mode == 'Game'"/>
+    <PlayerBox v-bind:in-game="mode == 'Game'" v-model="playerTypedTxt"/>
   </div>
 </template>
 
@@ -37,14 +38,25 @@ export default {
   data() {
     return {
       mode: "Home", // can be either "Home" or "Game"
-      HTMLtxt: HTMLText
+      HTMLtxt: HTMLText,
+      playerTxt: [],
+      playerTypedTxt: ""
     }
   },
   methods: {
     play() {
       this.mode = "Game"
+      this.playerTxt = this.HTMLtxt.split(""); 
     }
-  }
+  },
+  // watch: {
+  //   playerTypedTxt: {
+  //     immediate: true,
+  //     deep: true,
+      
+  //   }
+
+  // }
 }
 </script>
 

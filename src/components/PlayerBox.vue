@@ -1,6 +1,6 @@
 <template>
-  <textarea class='player-box' v-bind:class="{visible: inGame}" v-model="message" placeholder="Type Here">
-  </textarea>
+    <textarea class='player-box' v-bind:class="{visible: inGame}" placeholder="Type Here">
+    </textarea>
 </template>
 
 <script>
@@ -23,10 +23,13 @@ export default {
     z-index: 3;
     align-self: center;
     transform: translate(0, -100%);
+    visibility: hidden;
     font-size: 30px;
+
   }
 
   .visible {
     transform: translate(0, 0);
+    visibility: visible;
   }
 </style>
