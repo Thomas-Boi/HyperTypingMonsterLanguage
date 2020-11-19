@@ -1,6 +1,6 @@
 <template>
   <div class="home" v-bind:class="{moving: mode == 'Game'}">
-    <TypingBox v-bind:in-game="mode == 'Game'"/>
+    <TypingBox :text="HTMLtxt" v-bind:in-game="mode == 'Game'"/>
     <main class='mainArea'>
       <h1 class='title' v-bind:class="{invisible: mode == 'Game'}">
         Hyper Typing <br> Monster Language
@@ -22,6 +22,7 @@ import Player from "../components/Player"
 import Monster from "../components/Monster"
 import TypingBox from "../components/TypingBox"
 import Storage from "../utils/Storage"
+import HTMLText from "raw-loader!../assets/helloworld.html"
 
 let storage = Storage.getStorage()
 console.log(storage.getHistory())
@@ -36,7 +37,8 @@ export default {
   },
   data() {
     return {
-      mode: "Home" // can be either "Home" or "Game"
+      mode: "Home", // can be either "Home" or "Game"
+      HTMLtxt: HTMLText
     }
   },
   methods: {

@@ -1,15 +1,53 @@
 <template>
   <div class='typing-box' v-bind:class="{visible: inGame}">
+    <span class='typedTxt'>{{cleanedText.slice(0, curCharIndex)}}|</span>
+    <span class='remainingTxt'>{{cleanedText.slice(curCharIndex)}}</span>
+    <textarea id='inputArea' class='inputArea' @keydown.stop.prevent="typeText($event)"/> 
   </div>
 </template>
 
 <script>
+
 export default {
   name: "TypingBox",
   props: {
-    inGame: Boolean
+    inGame: Boolean,
+    text: String
+  },
+  computed: {
+    cleanedText() {
+      return this.text.replace(/\r/g, "").replace(/ {4}/g, "\t")
+    }
+  },
+  data() {
+    return {
+      curCharIndex: 0
+    }
+  },
+  methods: {
+    typeText(evt) {
+      let typedChar = evt.key
+      // console.log(
+      //   {
+      //     typedChar,
+      //     target: this.cleanedText.charAt(this.curCharIndex)
+      //   }
+      // )
+
+      if (typedChar === "Enter") {
+        typedChar = "\n"
+      } else if (typedChar === "Tab") {
+        typedChar = "\t"
+      }
+
+      if (typedChar === this.cleanedText.charAt(this.curCharIndex)) {
+        this.curCharIndex++
+        if (this.cleanedText.charAt(this.curCharIndex) == "") console.log("Finish game")
+      }
+    }
   }
 }
+
 </script>
 
 <style scoped>
@@ -21,7 +59,24 @@ export default {
     position: fixed;
     z-index: 3;
     align-self: center;
-    transform: translate(0, -100%);
+    transform: translate(0, -100.5%);
+    color: white;
+  }
+
+  span {
+    white-space: pre-wrap;
+  }
+
+  .typedTxt {
+    color: green;
+  }
+
+  .inputArea {
+    position: fixed;
+    opacity: 0.5;
+    top: 0;
+    height: 30vh;
+    width: 50vw;
   }
 
   .visible {
