@@ -12,12 +12,12 @@ class Storage {
     this.highscores = localStorage.getItem(Storage.scoreKey)
 
     if (this.highscores === null) {
-      this.highscores = new Array(this.maxhighscore).fill(0)
+      this.highscores = new Array(Storage.maxhighscore).fill(0)
     }
     // index 0 is most recent playthrough
     this.history = localStorage.getItem(Storage.historyKey)
     if (this.history === null) {
-      this.history = new Array(this.maxHistory).fill(0)
+      this.history = new Array(Storage.maxHistory).fill(0)
     }
   }
 
@@ -36,6 +36,8 @@ class Storage {
     }
     this.history.unshift(result)
     this.checkHighscore(result)
+    localStorage.setItem(Storage.historyKey, this.history)
+    localStorage.setItem(Storage.scoreKey, this.highscores)
   }
 
   checkHighscore(result) {
@@ -62,12 +64,13 @@ class Storage {
     }
   }
 
-  getHistories() {
-    return this.histories
+  getHistory() {
+    return this.history
   }
 
   getHighscores() {
     return this.highscores
   }
 }
-export default Storage.getStorage
+
+export default Storage;

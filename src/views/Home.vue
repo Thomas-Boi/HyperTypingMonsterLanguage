@@ -21,6 +21,10 @@ import ButtonSection from "../components/ButtonSection"
 import Player from "../components/Player"
 import Monster from "../components/Monster"
 import TypingBox from "../components/TypingBox"
+import Storage from "../utils/Storage"
+
+let storage = Storage.getStorage()
+console.log(storage.getHistory())
 
 export default {
   name: 'Home',
