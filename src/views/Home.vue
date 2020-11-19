@@ -66,13 +66,14 @@ export default {
 
   .home {
     background-image: url("../assets/background.png");
-    background-size: contain;
+    background-size: cover;
     animation-name: movingBackground;
     /* animation-duration: 15s; */
     animation-iteration-count: infinite;
     animation-timing-function: linear;
     display: flex;
     flex-direction: column;
+    height:100%;
   }
 
   .mainArea {
@@ -82,6 +83,7 @@ export default {
     grid-template-areas:
       "title button-section"
       "game-play-section game-play-section";
+    height:100vh;
   }
 
   .title {
@@ -97,7 +99,7 @@ export default {
     padding: 0;
     margin: 0;
   }
-
+  
   .road {
     background-color: black;
     height: 100px;
