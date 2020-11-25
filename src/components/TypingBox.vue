@@ -1,7 +1,8 @@
 <template>
   <div class='typing-box' v-bind:class="{visible: inGame}">
-    <span class='typedTxt'>{{cleanedText.slice(0, curCharIndex)}}|</span>
-    <span class='remainingTxt'>{{cleanedText.slice(curCharIndex)}}</span>
+    <span class='typedTxt'>{{cleanedText.slice(0, curCharIndex)}}</span>
+    <span class='nextCharToType'>{{cleanedText.charAt(curCharIndex)}}</span>
+    <span class='remainingTxt'>{{cleanedText.slice(curCharIndex + 1)}}</span>
     <textarea id='inputArea' class='inputArea' @keydown.stop.prevent="typeText($event)"/> 
   </div>
 </template>
@@ -34,6 +35,7 @@ export default {
       //   }
       // )
 
+      // convert to equivalent forms
       if (typedChar === "Enter") {
         typedChar = "\n"
       } else if (typedChar === "Tab") {
@@ -42,8 +44,15 @@ export default {
 
       if (typedChar === this.cleanedText.charAt(this.curCharIndex)) {
         this.curCharIndex++
-        if (this.cleanedText.charAt(this.curCharIndex) == "") console.log("Finish game")
+        if (this.cleanedText.charAt(this.curCharIndex) == "") {
+          console.log("Finish game")
+        } 
       }
+    }
+  },
+  updated() {
+    if (this.inGame) {
+      document.querySelector("#inputArea").focus()
     }
   }
 }
@@ -71,9 +80,13 @@ export default {
     color: green;
   }
 
+  .nextCharToType {
+    background-color: gray;
+  }
+
   .inputArea {
     position: fixed;
-    opacity: 0.5;
+    opacity: 0;
     top: 0;
     height: 30vh;
     width: 50vw;
