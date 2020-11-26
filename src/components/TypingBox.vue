@@ -8,6 +8,7 @@
 </template>
 
 <script>
+const UPDATE_INTERVAL_IN_MILI = 3000
 
 export default {
   name: "TypingBox",
@@ -23,8 +24,11 @@ export default {
   data() {
     return {
       curCharIndex: 0,
-      wpm: 0,
-      mistypedCount: 0
+      mistypedCount: 0,
+      cpmUpdater: null,
+      previousIndex: 0,
+      gameStarted: false,
+      cpm: 0
     }
   },
   methods: {
@@ -49,22 +53,43 @@ export default {
         this.mistypedCount++
       }
     },
+
     scrollDown() {
       this.$refs.curChar.scrollIntoView()
     },
+
     finishGame() {
+      clearInterval(this.cpmUpdater)
+      let charCount = this.cleanedText.length
+      let totalCharType = charCount + this.mistypedCount
+      let accuracy = charCount / totalCharType
+
       let gameResult = {
-        wpm: this.wpm,
-        wordCount: this.cleanedText.length,
-        mistypedCount: this.mistypedCount,
+        charCount,
+        cpm: this.cpm,
+        accuracy,
         result: "won"
       }
       this.$emit("game-finished", gameResult)
+    },
+
+    updateCPM() {
+      let capturedCurChar = this.curCharIndex
+      let charTypedCount = capturedCurChar - this.previousIndex
+      this.previousIndex = capturedCurChar
+      let ratioOfMinToInterval = 60000 / UPDATE_INTERVAL_IN_MILI
+
+      this.cpm = charTypedCount * ratioOfMinToInterval
+      this.$emit("update-cpm", this.cpm)
     }
   },
+
   updated() {
-    if (this.inGame) {
+    // only run it once
+    if (this.inGame && !this.gameStarted) {
       this.$refs.inputArea.focus()
+      this.cpmUpdater = setInterval(this.updateCPM, UPDATE_INTERVAL_IN_MILI)
+      this.gameStarted = true
     }
   }
 }

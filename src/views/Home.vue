@@ -1,16 +1,21 @@
 <template>
   <div class="home" v-bind:class="{moving: mode == 'Game'}">
-    <TypingBox :text="HTMLtxt" v-bind:in-game="mode == 'Game'" v-on:game-finished="displayResultScene"/>
+    <CPMDisplayer v-bind:cpm="cpm" v-bind:in-game="mode == 'Game'"/>
+    <TypingBox :text="HTMLtxt" v-bind:in-game="mode == 'Game'" 
+      v-on:game-finished="displayResultScene" v-on:update-cpm="updateCPM"/>
+
     <main class='mainArea'>
       <h1 class='title' v-bind:class="{invisible: mode == 'Game'}">
         Hyper Typing <br> Monster Language
       </h1>
+
       <ButtonSection v-bind:class="{invisible: mode == 'Game'}" v-on:play="play"/>
       <section class='game-play-section'>
         <Monster v-bind:in-game="mode == 'Game'"/>
         <Player />
         <div class='road'> </div>
       </section>
+
     </main>
   </div>
 </template>
@@ -21,6 +26,7 @@ import ButtonSection from "../components/ButtonSection"
 import Player from "../components/Player"
 import Monster from "../components/Monster"
 import TypingBox from "../components/TypingBox"
+import CPMDisplayer from "../components/CPMDisplayer"
 import HTMLText from "raw-loader!../assets/test.html"
 import router from "../router/index"
 
@@ -30,24 +36,31 @@ export default {
     ButtonSection,
     Player,
     Monster,
-    TypingBox 
+    TypingBox,
+    CPMDisplayer
   },
   data() {
     return {
       mode: "Home", // can be either "Home" or "Game"
-      HTMLtxt: HTMLText
+      HTMLtxt: HTMLText,
+      cpm: 0
     }
   },
   methods: {
     play() {
       this.mode = "Game"
     },
+
     displayResultScene(gameResult) {
       // navigate to the page
       router.push({
         name: "GameFinished",
         query: gameResult
       })
+    },
+
+    updateCPM(newCPM) {
+      this.cpm = newCPM
     }
   }
 }
