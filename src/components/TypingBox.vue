@@ -1,9 +1,9 @@
 <template>
   <div class='typing-box' v-bind:class="{visible: inGame}">
     <span class='typedTxt'>{{cleanedText.slice(0, curCharIndex)}}</span>
-    <span class='nextCharToType'>{{cleanedText.charAt(curCharIndex)}}</span>
+    <span ref='curChar' class='curChar'>{{cleanedText.charAt(curCharIndex)}}</span>
     <span class='remainingTxt'>{{cleanedText.slice(curCharIndex + 1)}}</span>
-    <textarea id='inputArea' class='inputArea' @keydown.stop.prevent="typeText($event)"/> 
+    <textarea ref='inputArea' class='inputArea' @keydown.stop.prevent="typeText($event)"/> 
   </div>
 </template>
 
@@ -22,37 +22,49 @@ export default {
   },
   data() {
     return {
-      curCharIndex: 0
+      curCharIndex: 0,
+      wpm: 0,
+      mistypedCount: 0
     }
   },
   methods: {
     typeText(evt) {
       let typedChar = evt.key
-      // console.log(
-      //   {
-      //     typedChar,
-      //     target: this.cleanedText.charAt(this.curCharIndex)
-      //   }
-      // )
 
       // convert to equivalent forms
       if (typedChar === "Enter") {
         typedChar = "\n"
+        this.scrollDown()
       } else if (typedChar === "Tab") {
         typedChar = "\t"
       }
 
       if (typedChar === this.cleanedText.charAt(this.curCharIndex)) {
         this.curCharIndex++
+        // if reached the end
         if (this.cleanedText.charAt(this.curCharIndex) == "") {
-          console.log("Finish game")
+          this.finishGame()
         } 
+      } else {
+        this.mistypedCount++
       }
+    },
+    scrollDown() {
+      this.$refs.curChar.scrollIntoView()
+    },
+    finishGame() {
+      let gameResult = {
+        wpm: this.wpm,
+        wordCount: this.cleanedText.length,
+        mistypedCount: this.mistypedCount,
+        result: "won"
+      }
+      this.$emit("game-finished", gameResult)
     }
   },
   updated() {
     if (this.inGame) {
-      document.querySelector("#inputArea").focus()
+      this.$refs.inputArea.focus()
     }
   }
 }
@@ -70,6 +82,7 @@ export default {
     align-self: center;
     transform: translate(0, -100.5%);
     color: white;
+    overflow: hidden;
   }
 
   span {
@@ -80,7 +93,7 @@ export default {
     color: green;
   }
 
-  .nextCharToType {
+  .curChar {
     background-color: gray;
   }
 

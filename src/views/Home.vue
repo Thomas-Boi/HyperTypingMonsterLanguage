@@ -1,6 +1,6 @@
 <template>
   <div class="home" v-bind:class="{moving: mode == 'Game'}">
-    <TypingBox :text="HTMLtxt" v-bind:in-game="mode == 'Game'"/>
+    <TypingBox :text="HTMLtxt" v-bind:in-game="mode == 'Game'" v-on:game-finished="displayResultScene"/>
     <main class='mainArea'>
       <h1 class='title' v-bind:class="{invisible: mode == 'Game'}">
         Hyper Typing <br> Monster Language
@@ -21,11 +21,8 @@ import ButtonSection from "../components/ButtonSection"
 import Player from "../components/Player"
 import Monster from "../components/Monster"
 import TypingBox from "../components/TypingBox"
-import Storage from "../utils/Storage"
-import HTMLText from "raw-loader!../assets/helloworld.html"
-
-let storage = Storage.getStorage()
-console.log(storage.getHistory())
+import HTMLText from "raw-loader!../assets/test.html"
+import router from "../router/index"
 
 export default {
   name: 'Home',
@@ -44,6 +41,13 @@ export default {
   methods: {
     play() {
       this.mode = "Game"
+    },
+    displayResultScene(gameResult) {
+      // navigate to the page
+      router.push({
+        name: "GameFinished",
+        query: gameResult
+      })
     }
   }
 }
