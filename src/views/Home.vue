@@ -5,7 +5,7 @@
     <TypingBox :text="HTMLtxt" v-bind:in-game="mode == 'Game'" 
       v-bind:monster-cpm="monsterCpm"
       v-on:game-finished="displayResultScene" v-on:update-cpm="updateCPM"
-      v-on:player-slow-down="movePlayerToMonster"/>
+      v-on:player-move="movePlayer"/>
 
     <main class='mainArea'>
       <h1 class='title' v-bind:class="{invisible: mode == 'Game'}">
@@ -14,8 +14,8 @@
 
       <ButtonSection v-bind:class="{invisible: mode == 'Game'}" v-on:play="play"/>
       <section class='game-play-section'>
-        <Monster v-bind:in-game="mode == 'Game'"/>
-        <Player v-bind:distance="distanceFromMonster"/>
+        <Monster v-bind:in-game="mode == 'Game'" ref='monster'/>
+        <Player v-bind:distance="distanceFromPlayerToMonster" ref='player'/>
         <div class='road'> </div>
       </section>
 
@@ -48,7 +48,8 @@ export default {
       HTMLtxt: HTMLText,
       cpm: 0,
       monsterCpm: 150,
-      distanceFromMonster: 0
+      startingDistanceFromMonster: 0,
+      distanceFromPlayerToMonster: 0
     }
   },
   methods: {
@@ -68,9 +69,32 @@ export default {
       this.cpm = newCPM
     },
 
-    movePlayerToMonster() {
+    movePlayer(distanceFraction) {
+      this.distanceFromPlayerToMonster = 
+        this.startingDistanceFromMonster * distanceFraction
+      console.log(this.distanceFromPlayerToMonster)
+    },
 
+    // find the starting distance from the monster 
+    // only call this method once like a singleton
+    async findStartingDistanceFromMonster() {
+      if (this.startingDistanceFromMonster !== 0) {
+        return this.startingDistanceFromMonster
+      }
+
+      let monsterPosition = await this.$refs.monster.getPosition()
+      let playerPosition = this.$refs.player.getPosition()
+
+      return playerPosition.left - monsterPosition.right
     }
+  },
+
+  updated() {
+    this.$nextTick(async () => {
+      if (this.mode === "Game") {
+        this.startingDistanceFromMonster = await this.findStartingDistanceFromMonster()
+      }
+    })
   }
 }
 </script>

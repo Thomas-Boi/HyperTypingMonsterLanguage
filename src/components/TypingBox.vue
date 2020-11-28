@@ -8,8 +8,8 @@
 </template>
 
 <script>
-const UPDATE_INTERVAL_IN_MILI = 3000
-const MAX_DISTANCE_FROM_MONSTER = 3
+const UPDATE_INTERVAL_IN_MILI = 2500
+const MAX_PARTS_DISTANCE_FROM_PLAYER_TO_MONSTER = 4
 
 export default {
   name: "TypingBox",
@@ -23,6 +23,16 @@ export default {
       return this.text.replace(/\r/g, "").replace(/ {4}/g, "\t")
     }
   },
+  watch: {
+    inGame() {
+      // only run it once
+      if (this.inGame && !this.gameStarted) {
+        this.$refs.inputArea.focus()
+        this.cpmUpdater = setInterval(this.updateCPM, UPDATE_INTERVAL_IN_MILI)
+        this.gameStarted = true
+      }
+    }
+  },
   data() {
     return {
       curCharIndex: 0,
@@ -32,7 +42,7 @@ export default {
       gameStarted: false,
       cpm: 0,
       highestCpm: 0,
-      distanceFromMonster: MAX_DISTANCE_FROM_MONSTER // track when the player lose
+      distanceFromPlayerToMonster: 0 // track when the player lose
     }
   },
   methods: {
@@ -98,29 +108,28 @@ export default {
     },
 
     decreaseDistanceFromMonster() {
-      this.distanceFromMonster--
-      this.$emit("player-slow-down")
-      if (this.distanceFromMonster === 0) {
-        this.finishGame("lost")
+      this.distanceFromPlayerToMonster++
+      this.updatePlayerDistance()
+
+      if (this.distanceFromPlayerToMonster === MAX_PARTS_DISTANCE_FROM_PLAYER_TO_MONSTER) {
+        setTimeout(() => this.finishGame("lost"), 1000)
       }
     },
 
     increaseDistanceFromMonster() {
-      this.distanceFromMonster++
-      if (this.distanceFromMonster > MAX_DISTANCE_FROM_MONSTER) {
-        this.distanceFromMonster = MAX_DISTANCE_FROM_MONSTER
+      this.distanceFromPlayerToMonster--
+      if (this.distanceFromPlayerToMonster < 0) {
+        this.distanceFromPlayerToMonster = 0
       }
-    }
-  },
+      this.updatePlayerDistance()
+    },
 
-  updated() {
-    // only run it once
-    if (this.inGame && !this.gameStarted) {
-      this.$refs.inputArea.focus()
-      this.cpmUpdater = setInterval(this.updateCPM, UPDATE_INTERVAL_IN_MILI)
-      this.gameStarted = true
+    updatePlayerDistance() {
+      let distanceFraction = this.distanceFromPlayerToMonster / MAX_PARTS_DISTANCE_FROM_PLAYER_TO_MONSTER
+      this.$emit("player-move", distanceFraction)
     }
   }
+
 }
 
 </script>
