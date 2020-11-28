@@ -1,16 +1,19 @@
 <template>
   <section class='displayer'>
     <span>Your CPM: </span> <span class='rightSideSpan'>{{cpm}}</span>
-    <span>Monster CPM: </span><span class='rightSideSpan'>{{cpm}}</span>
+    <span>Monster CPM: </span><span class='rightSideSpan'>{{monsterCpm}}</span>
   </section>
 </template>
 
 <script>
+
+
 export default {
   name: "CPMDisplayer",
   props: {
     cpm: Number,
-    inGame: Boolean
+    inGame: Boolean,
+    monsterCpm: Number
   }
     
 }

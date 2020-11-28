@@ -1,8 +1,11 @@
 <template>
   <div class="home" v-bind:class="{moving: mode == 'Game'}">
-    <CPMDisplayer v-bind:cpm="cpm" v-bind:in-game="mode == 'Game'"/>
+    <CPMDisplayer v-bind:cpm="cpm" v-bind:monster-cpm="monsterCpm"
+      v-bind:in-game="mode == 'Game'" />
     <TypingBox :text="HTMLtxt" v-bind:in-game="mode == 'Game'" 
-      v-on:game-finished="displayResultScene" v-on:update-cpm="updateCPM"/>
+      v-bind:monster-cpm="monsterCpm"
+      v-on:game-finished="displayResultScene" v-on:update-cpm="updateCPM"
+      v-on:player-slow-down="movePlayerToMonster"/>
 
     <main class='mainArea'>
       <h1 class='title' v-bind:class="{invisible: mode == 'Game'}">
@@ -12,7 +15,7 @@
       <ButtonSection v-bind:class="{invisible: mode == 'Game'}" v-on:play="play"/>
       <section class='game-play-section'>
         <Monster v-bind:in-game="mode == 'Game'"/>
-        <Player />
+        <Player v-bind:distance="distanceFromMonster"/>
         <div class='road'> </div>
       </section>
 
@@ -43,7 +46,9 @@ export default {
     return {
       mode: "Home", // can be either "Home" or "Game"
       HTMLtxt: HTMLText,
-      cpm: 0
+      cpm: 0,
+      monsterCpm: 150,
+      distanceFromMonster: 0
     }
   },
   methods: {
@@ -61,6 +66,10 @@ export default {
 
     updateCPM(newCPM) {
       this.cpm = newCPM
+    },
+
+    movePlayerToMonster() {
+
     }
   }
 }

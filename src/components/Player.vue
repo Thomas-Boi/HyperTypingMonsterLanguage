@@ -13,7 +13,15 @@ export default {
   name: "Player",
   components: {
     Hat
-  }  
+  },
+  props: {
+    distance: Number
+  },
+  data() {
+    return {
+      distanceFromMonsterInPixel: 0
+    }
+  }
 }
 </script>
 

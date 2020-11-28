@@ -1,6 +1,6 @@
 <template>
-  <img src="../assets/lizard_monster_T.png" alt='monster'
-  v-bind:class='{chasing: inGame}'/>
+  <img id='monster' src="../assets/lizard_monster_T.png" alt='monster'
+  v-bind:class='{chasing: inGame}'  />
 </template>
 
 <script>

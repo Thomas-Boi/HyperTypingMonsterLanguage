@@ -9,12 +9,14 @@
 
 <script>
 const UPDATE_INTERVAL_IN_MILI = 3000
+const MAX_DISTANCE_FROM_MONSTER = 3
 
 export default {
   name: "TypingBox",
   props: {
     inGame: Boolean,
-    text: String
+    text: String,
+    monsterCpm: Number
   },
   computed: {
     cleanedText() {
@@ -29,7 +31,8 @@ export default {
       previousIndex: 0,
       gameStarted: false,
       cpm: 0,
-      highestCpm: 0
+      highestCpm: 0,
+      distanceFromMonster: MAX_DISTANCE_FROM_MONSTER // track when the player lose
     }
   },
   methods: {
@@ -48,7 +51,7 @@ export default {
         this.curCharIndex++
         // if reached the end
         if (this.cleanedText.charAt(this.curCharIndex) == "") {
-          this.finishGame()
+          this.finishGame("won")
         } 
       } else {
         this.mistypedCount++
@@ -59,7 +62,7 @@ export default {
       this.$refs.curChar.scrollIntoView()
     },
 
-    finishGame() {
+    finishGame(result) {
       clearInterval(this.cpmUpdater)
       let charCount = this.cleanedText.length
       let totalCharType = charCount + this.mistypedCount
@@ -69,7 +72,7 @@ export default {
         charCount,
         cpm: this.highestCpm,
         accuracy,
-        result: "won"
+        result
       }
       this.$emit("game-finished", gameResult)
     },
@@ -84,7 +87,29 @@ export default {
       if (this.cpm > this.highestCpm) {
         this.highestCpm = this.cpm
       }
+
+      if (this.cpm < this.monsterCpm) {
+        this.decreaseDistanceFromMonster()
+      }
+      else {
+        this.increaseDistanceFromMonster()
+      }
       this.$emit("update-cpm", this.cpm)
+    },
+
+    decreaseDistanceFromMonster() {
+      this.distanceFromMonster--
+      this.$emit("player-slow-down")
+      if (this.distanceFromMonster === 0) {
+        this.finishGame("lost")
+      }
+    },
+
+    increaseDistanceFromMonster() {
+      this.distanceFromMonster++
+      if (this.distanceFromMonster > MAX_DISTANCE_FROM_MONSTER) {
+        this.distanceFromMonster = MAX_DISTANCE_FROM_MONSTER
+      }
     }
   },
 
