@@ -28,7 +28,8 @@ export default {
       cpmUpdater: null,
       previousIndex: 0,
       gameStarted: false,
-      cpm: 0
+      cpm: 0,
+      highestCpm: 0
     }
   },
   methods: {
@@ -66,7 +67,7 @@ export default {
 
       let gameResult = {
         charCount,
-        cpm: this.cpm,
+        cpm: this.highestCpm,
         accuracy,
         result: "won"
       }
@@ -80,6 +81,9 @@ export default {
       let ratioOfMinToInterval = 60000 / UPDATE_INTERVAL_IN_MILI
 
       this.cpm = charTypedCount * ratioOfMinToInterval
+      if (this.cpm > this.highestCpm) {
+        this.highestCpm = this.cpm
+      }
       this.$emit("update-cpm", this.cpm)
     }
   },
