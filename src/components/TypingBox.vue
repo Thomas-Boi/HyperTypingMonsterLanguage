@@ -8,7 +8,7 @@
 </template>
 
 <script>
-const UPDATE_INTERVAL_IN_MILI = 2500
+const UPDATE_INTERVAL_IN_MILI = 2000
 const MAX_PARTS_DISTANCE_FROM_PLAYER_TO_MONSTER = 4
 
 export default {

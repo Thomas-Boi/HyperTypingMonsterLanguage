@@ -1,7 +1,9 @@
 <template>
-  <section class='displayer'>
-    <span>Your CPM: </span> <span class='rightSideSpan'>{{cpm}}</span>
-    <span>Monster CPM: </span><span class='rightSideSpan'>{{monsterCpm}}</span>
+  <section class='displayer' v-bind:class="{invisible: !inGame}">
+    <span v-bind:class="{danger: isPlayerSlower}">Your CPM: </span>
+    <span v-bind:class="{danger: isPlayerSlower}" class='rightSideSpan'>{{cpm}}</span>
+    <span>Monster CPM: </span>
+    <span class='rightSideSpan'>{{monsterCpm}}</span>
   </section>
 </template>
 
@@ -14,6 +16,11 @@ export default {
     cpm: Number,
     inGame: Boolean,
     monsterCpm: Number
+  },
+  computed: {
+    isPlayerSlower() {
+      return this.cpm < this.monsterCpm
+    }
   }
     
 }
@@ -33,5 +40,9 @@ export default {
 
   .rightSideSpan {
     justify-self: center;
+  }
+
+  .danger {
+    color: red;
   }
 </style>
