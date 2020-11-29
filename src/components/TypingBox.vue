@@ -41,7 +41,7 @@ export default {
       previousIndex: 0,
       gameStarted: false,
       cpm: 0,
-      highestCpm: 0,
+      cpmHistory: [],
       distanceFromPlayerToMonster: 0 // track when the player lose
     }
   },
@@ -78,9 +78,12 @@ export default {
       let totalCharType = charCount + this.mistypedCount
       let accuracy = charCount / totalCharType
 
+      let cpmSum = this.cpmHistory.reduce((sum, cpm) => sum += cpm, 0)
+      let cpmAverage = cpmSum / this.cpmHistory.length
+
       let gameResult = {
         charCount,
-        cpm: this.highestCpm,
+        cpm: cpmAverage,
         accuracy,
         result
       }
@@ -94,9 +97,7 @@ export default {
       let ratioOfMinToInterval = 60000 / UPDATE_INTERVAL_IN_MILI
 
       this.cpm = charTypedCount * ratioOfMinToInterval
-      if (this.cpm > this.highestCpm) {
-        this.highestCpm = this.cpm
-      }
+      this.cpmHistory.push(this.cpm)
 
       if (this.cpm < this.monsterCpm) {
         this.decreaseDistanceFromMonster()
