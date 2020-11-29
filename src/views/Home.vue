@@ -1,8 +1,11 @@
 <template>
   <div class="home" v-bind:class="{moving: mode == 'Game'}">
-    <CPMDisplayer v-bind:cpm="cpm" v-bind:in-game="mode == 'Game'"/>
+    <CPMDisplayer v-bind:cpm="cpm" v-bind:monster-cpm="monsterCpm"
+      v-bind:in-game="mode == 'Game'" />
     <TypingBox :text="HTMLtxt" v-bind:in-game="mode == 'Game'" 
-      v-on:game-finished="displayResultScene" v-on:update-cpm="updateCPM"/>
+      v-bind:monster-cpm="monsterCpm"
+      v-on:game-finished="displayResultScene" v-on:update-cpm="updateCPM"
+      v-on:player-move="movePlayer"/>
 
     <main class='mainArea'>
       <h1 class='title' v-bind:class="{invisible: mode == 'Game'}">
@@ -11,8 +14,8 @@
 
       <ButtonSection v-bind:class="{invisible: mode == 'Game'}" v-on:play="play"/>
       <section class='game-play-section'>
-        <Monster v-bind:in-game="mode == 'Game'"/>
-        <Player />
+        <Monster v-bind:in-game="mode == 'Game'" ref='monster'/>
+        <Player v-bind:distance="distanceFromPlayerToMonster" ref='player'/>
         <div class='road'> </div>
       </section>
 
@@ -43,7 +46,10 @@ export default {
     return {
       mode: "Home", // can be either "Home" or "Game"
       HTMLtxt: HTMLText,
-      cpm: 0
+      cpm: 0,
+      monsterCpm: 150,
+      startingDistanceFromMonster: 0,
+      distanceFromPlayerToMonster: 0
     }
   },
   methods: {
@@ -61,7 +67,34 @@ export default {
 
     updateCPM(newCPM) {
       this.cpm = newCPM
+    },
+
+    movePlayer(distanceFraction) {
+      this.distanceFromPlayerToMonster = 
+        this.startingDistanceFromMonster * distanceFraction
+      console.log(this.distanceFromPlayerToMonster)
+    },
+
+    // find the starting distance from the monster 
+    // only call this method once like a singleton
+    async findStartingDistanceFromMonster() {
+      if (this.startingDistanceFromMonster !== 0) {
+        return this.startingDistanceFromMonster
+      }
+
+      let monsterPosition = await this.$refs.monster.getPosition()
+      let playerPosition = this.$refs.player.getPosition()
+
+      return playerPosition.left - monsterPosition.right
     }
+  },
+
+  updated() {
+    this.$nextTick(async () => {
+      if (this.mode === "Game") {
+        this.startingDistanceFromMonster = await this.findStartingDistanceFromMonster()
+      }
+    })
   }
 }
 </script>
