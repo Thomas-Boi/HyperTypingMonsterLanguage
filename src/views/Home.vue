@@ -29,7 +29,7 @@ export default {
     ButtonSection,
     Player,
     Monster,
-    TypingBox
+    TypingBox 
   },
   data() {
     return {

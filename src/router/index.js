@@ -5,7 +5,6 @@ import GameScene from "../views/GameScene";
 import YouWin from "../views/YouWin";
 import YouLose from "../views/YouLose";
 import Stats from "../views/Stats";
-import Upload from "../views/Upload";
 
 Vue.use(VueRouter)
 
@@ -34,11 +33,6 @@ const routes = [
     path: '/stats',
     name: 'Stats',
     component: Stats
-  },
-  {
-    path: '/upload',
-    name: 'Upload',
-    component: Upload
   },
   {
     path: '/about',
