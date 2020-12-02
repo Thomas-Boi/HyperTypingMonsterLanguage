@@ -11,6 +11,8 @@
 const UPDATE_INTERVAL_IN_MILI = 2000
 const MAX_PARTS_DISTANCE_FROM_PLAYER_TO_MONSTER = 4
 
+import Storage from '../utils/Storage';
+
 export default {
   name: "TypingBox",
   props: {
@@ -89,6 +91,10 @@ export default {
         result,
         totalScore
       }
+
+      let storage = Storage.getStorage()
+      storage.saveResult(cpmAverage, accuracy, charCount)
+
       this.$emit("game-finished", gameResult)
     },
 
@@ -141,7 +147,7 @@ export default {
   .typing-box {
     height: 30vh;
     width: 50vw;
-    background-color: black;
+    background-color: grey;
     transition-duration: 1s;
     position: fixed;
     z-index: 3;
@@ -169,6 +175,9 @@ export default {
     top: 0;
     height: 30vh;
     width: 50vw;
+  }
+  .newlines {
+    white-space:pre;
   }
 
   .visible {

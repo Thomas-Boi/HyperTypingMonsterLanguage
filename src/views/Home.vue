@@ -18,7 +18,6 @@
         <Player v-bind:distance="distanceFromPlayerToMonster" ref='player'/>
         <div class='road'> </div>
       </section>
-
     </main>
   </div>
 </template>
@@ -106,7 +105,7 @@ export default {
     }
 
     to {
-      background-position: -92.5vw;
+      background-position: -100vw;
     }
   }
 
