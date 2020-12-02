@@ -1,16 +1,24 @@
 <template>
   <div class="home" v-bind:class="{moving: mode == 'Game'}">
-    <TypingBox v-bind:in-game="mode == 'Game'"/>
+    <CPMDisplayer v-bind:cpm="cpm" v-bind:monster-cpm="monsterCpm"
+      v-bind:in-game="mode == 'Game'" />
+    <TypingBox :text="HTMLtxt" v-bind:in-game="mode == 'Game'" 
+      v-bind:monster-cpm="monsterCpm"
+      v-on:game-finished="displayResultScene" v-on:update-cpm="updateCPM"
+      v-on:player-move="movePlayer"/>
+
     <main class='mainArea'>
       <h1 class='title' v-bind:class="{invisible: mode == 'Game'}">
         Hyper Typing <br> Monster Language
       </h1>
+
       <ButtonSection v-bind:class="{invisible: mode == 'Game'}" v-on:play="play"/>
       <section class='game-play-section'>
-        <Monster v-bind:in-game="mode == 'Game'"/>
-        <Player />
+        <Monster v-bind:in-game="mode == 'Game'" ref='monster'/>
+        <Player v-bind:distance="distanceFromPlayerToMonster" ref='player'/>
         <div class='road'> </div>
       </section>
+
     </main>
   </div>
 </template>
@@ -21,10 +29,9 @@ import ButtonSection from "../components/ButtonSection"
 import Player from "../components/Player"
 import Monster from "../components/Monster"
 import TypingBox from "../components/TypingBox"
-import Storage from "../utils/Storage"
-
-let storage = Storage.getStorage()
-console.log(storage.getHistory())
+import CPMDisplayer from "../components/CPMDisplayer"
+import HTMLText from "raw-loader!../assets/test.html"
+import router from "../router/index"
 
 export default {
   name: 'Home',
@@ -32,17 +39,62 @@ export default {
     ButtonSection,
     Player,
     Monster,
-    TypingBox 
+    TypingBox,
+    CPMDisplayer
   },
   data() {
     return {
-      mode: "Home" // can be either "Home" or "Game"
+      mode: "Home", // can be either "Home" or "Game"
+      HTMLtxt: HTMLText,
+      cpm: 0,
+      monsterCpm: 150,
+      startingDistanceFromMonster: 0,
+      distanceFromPlayerToMonster: 0
     }
   },
   methods: {
     play() {
       this.mode = "Game"
+    },
+
+    displayResultScene(gameResult) {
+      // navigate to the page
+      router.push({
+        name: "GameFinished",
+        query: gameResult
+      })
+    },
+
+    updateCPM(newCPM) {
+      this.cpm = newCPM
+    },
+
+    movePlayer(distanceFraction) {
+      this.distanceFromPlayerToMonster = 
+        this.startingDistanceFromMonster * distanceFraction
+      console.log(this.distanceFromPlayerToMonster)
+    },
+
+    // find the starting distance from the monster 
+    // only call this method once like a singleton
+    async findStartingDistanceFromMonster() {
+      if (this.startingDistanceFromMonster !== 0) {
+        return this.startingDistanceFromMonster
+      }
+
+      let monsterPosition = await this.$refs.monster.getPosition()
+      let playerPosition = this.$refs.player.getPosition()
+
+      return playerPosition.left - monsterPosition.right
     }
+  },
+
+  updated() {
+    this.$nextTick(async () => {
+      if (this.mode === "Game") {
+        this.startingDistanceFromMonster = await this.findStartingDistanceFromMonster()
+      }
+    })
   }
 }
 </script>
@@ -64,13 +116,14 @@ export default {
 
   .home {
     background-image: url("../assets/background.png");
-    background-size: contain;
+    background-size: cover;
     animation-name: movingBackground;
     /* animation-duration: 15s; */
     animation-iteration-count: infinite;
     animation-timing-function: linear;
     display: flex;
     flex-direction: column;
+    height:100%;
   }
 
   .mainArea {
@@ -80,6 +133,7 @@ export default {
     grid-template-areas:
       "title button-section"
       "game-play-section game-play-section";
+    height:100vh;
   }
 
   .title {
@@ -95,7 +149,7 @@ export default {
     padding: 0;
     margin: 0;
   }
-
+  
   .road {
     background-color: black;
     height: 100px;
