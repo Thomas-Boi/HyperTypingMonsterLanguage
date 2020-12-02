@@ -19,7 +19,6 @@
         <div class='road'> </div>
       </section>
     </main>
-    <PlayerBox v-bind:in-game="mode == 'Game'" v-model="playerTypedTxt"/>
   </div>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div class="StatsScreen">
         
         <ViewButton text="Menu" target="Home"/>
-        <h1>Stats</h1>
+        <h1 class="StatsTitle">Stats</h1>
         <!-- pass histories and high scores here -->
-        <Highscores title="HighScores" v-bind:scores="scores" />
-        <Highscores title="Recent Runs" v-bind:scores="histories"/>
+        <Highscores class="results" title="HighScores" v-bind:scores="scores" />
+        <Highscores class="results" title="Recent Runs" v-bind:scores="histories"/>
     </div>
 </template>
 
@@ -40,5 +40,24 @@
 </script>
 
 <style>
+    .StatsScreen {
+        background-image: url("../assets/background.png");
+        background-size: cover;
+        position: absolute;
+        height:100%;
+        width: 100%;
+    }
+    h1 {
+        text-align: center;
+    }
 
+    .StatsTitle {
+        font-size: 60px;
+        color:white;
+    }
+
+    .results {
+        width:40%;
+        float: left;
+    }
 </style>

@@ -11,6 +11,8 @@
 const UPDATE_INTERVAL_IN_MILI = 2000
 const MAX_PARTS_DISTANCE_FROM_PLAYER_TO_MONSTER = 4
 
+import Storage from '../utils/Storage';
+
 export default {
   name: "TypingBox",
   props: {
@@ -87,6 +89,10 @@ export default {
         accuracy,
         result
       }
+
+      let storage = Storage.getStorage()
+      storage.saveResult(cpmAverage, accuracy, charCount)
+
       this.$emit("game-finished", gameResult)
     },
 

@@ -12,12 +12,16 @@ class Storage {
     this.highscores = localStorage.getItem(Storage.scoreKey)
 
     if (this.highscores === null) {
-      this.highscores = new Array(Storage.maxhighscore).fill(0)
+      this.highscores = new Array(Storage.maxHighscore).fill(0)
+    } else {
+      this.highscores = JSON.parse(this.highscores)
     }
     // index 0 is most recent playthrough
     this.history = localStorage.getItem(Storage.historyKey)
     if (this.history === null) {
       this.history = new Array(Storage.maxHistory).fill(0)
+    } else {
+      this.history = JSON.parse(this.history)
     }
   }
 
@@ -30,14 +34,14 @@ class Storage {
 
   // save the result of a run 
   saveResult(wpm, accuracy, wordCount) {
-    let result = wpm * accuracy * wordCount
+    let result = Math.round(wpm * accuracy * wordCount)
     if (this.history.length === Storage.maxHistory) {
       this.history.pop() // remove oldest history
     }
     this.history.unshift(result)
     this.checkHighscore(result)
-    localStorage.setItem(Storage.historyKey, this.history)
-    localStorage.setItem(Storage.scoreKey, this.highscores)
+    localStorage.setItem(Storage.historyKey, JSON.stringify(this.history))
+    localStorage.setItem(Storage.scoreKey, JSON.stringify(this.highscores))
   }
 
   checkHighscore(result) {

@@ -1,10 +1,12 @@
 <template>
     <div>
+        <br>
         <h1>{{title}}</h1>
         <ol v-for="(score, index) in scores" v-bind:key="index" >
             <ScoreItem  v-bind:score="score" v-bind:index="index" />
             
         </ol>
+        <br>
     </div>
 </template>
 
