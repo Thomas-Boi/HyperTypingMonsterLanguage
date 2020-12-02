@@ -76,16 +76,18 @@ export default {
       clearInterval(this.cpmUpdater)
       let charCount = this.cleanedText.length
       let totalCharType = charCount + this.mistypedCount
-      let accuracy = charCount / totalCharType
+      let accuracy = (charCount / totalCharType).toFixed(2)
 
       let cpmSum = this.cpmHistory.reduce((sum, cpm) => sum += cpm, 0)
-      let cpmAverage = cpmSum / this.cpmHistory.length
+      let cpmAverage = (cpmSum / this.cpmHistory.length).toFixed(2)
+      let totalScore = (charCount * accuracy * cpmAverage).toFixed(2);
 
       let gameResult = {
         charCount,
         cpm: cpmAverage,
         accuracy,
-        result
+        result,
+        totalScore
       }
       this.$emit("game-finished", gameResult)
     },
