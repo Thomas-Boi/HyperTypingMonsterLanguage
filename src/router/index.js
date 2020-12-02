@@ -2,8 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import GameScene from "../views/GameScene";
-import YouWin from "../views/YouWin";
-import YouLose from "../views/YouLose";
+import GameFinished from "../views/GameFinished";
 import Stats from "../views/Stats";
 
 Vue.use(VueRouter)
@@ -20,14 +19,9 @@ const routes = [
     component: GameScene
   },
   {
-    path: '/win',
-    name: 'YouWin',
-    component: YouWin
-  },
-  {
-    path: '/lose',
-    name: 'YouLose',
-    component: YouLose
+    path: '/finished',
+    name: 'GameFinished',
+    component: GameFinished
   },
   {
     path: '/stats',
