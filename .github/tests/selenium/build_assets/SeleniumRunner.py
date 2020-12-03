@@ -1,6 +1,7 @@
 from typing import List
 from pathlib import Path
 import time
+import os
 
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.firefox.options import Options
@@ -44,15 +45,20 @@ class SeleniumRunner:
         self.driver = WebDriver(executable_path=geckodriver_path)
         self.driver.get(self.LOCALHOST_URL)
         self.screenshot_path = screenshot_path
+        os.mkdir(screenshot_path)
+
         assert "Hyper Typing Monster Language" in self.driver.title
 
 
     def take_screenshot(self, imgName):
-        img_path = Path(self.screenshot_path, imgName).resolve()
-        self.driver.save_screenshot(str(img_path))
+        img_path = str(Path(self.screenshot_path, imgName).resolve())
+        self.driver.save_screenshot(img_path)
 
     def run(self):
-        self.take_screenshot("test.png")
-        self.driver.quit()
+        try:
+            self.take_screenshot("homepage.png")
+        finally:
+            self.driver.quit()
+    
 
         
