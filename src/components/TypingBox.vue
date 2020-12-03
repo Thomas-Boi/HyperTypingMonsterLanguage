@@ -63,7 +63,7 @@ export default {
         this.curCharIndex++
         // if reached the end
         if (this.cleanedText.charAt(this.curCharIndex) == "") {
-          this.finishGame("won")
+          this.finishGame("WON!")
         } 
       } else {
         this.mistypedCount++
@@ -121,7 +121,7 @@ export default {
       this.updatePlayerDistance()
 
       if (this.distanceFromPlayerToMonster === MAX_PARTS_DISTANCE_FROM_PLAYER_TO_MONSTER) {
-        setTimeout(() => this.finishGame("lost"), 1000)
+        setTimeout(() => this.finishGame("LOST"), 1000)
       }
     },
 
