@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "run-selenium": "py ./.github/tests/selenium/ui_tests.py ./.github/tests/selenium/geckodriver-v0.27.0-win64/geckodriver.exe ./screenshots",
+    "run-selenium": "python ./.github/tests/selenium/ui_tests.py ./.github/tests/selenium/geckodriver-v0.27.0-win64/geckodriver.exe ./screenshots",
     "test": "start-server-and-test serve http://localhost:8080/ run-selenium"
   },
   "dependencies": {
