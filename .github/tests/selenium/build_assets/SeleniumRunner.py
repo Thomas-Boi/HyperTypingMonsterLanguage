@@ -62,6 +62,8 @@ class SeleniumRunner:
     def run(self):
         try:
             self.take_screenshot("homepage.png")
+            print("Took screenshot of homepage")
+            self.test_stats()
         finally:
             self.driver.quit()
     
@@ -69,6 +71,8 @@ class SeleniumRunner:
         print("Testing stats page")
         stats_btn = self.driver.find_element_by_xpath("/html/body/div/div/main/section[1]/button[5]/a")
         stats_btn.click()
+        assert "stats" in self.driver.current_url
+        print("Stats page loaded successfully")
         self.take_screenshot("stats.png")
 
         
