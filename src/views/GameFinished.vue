@@ -10,6 +10,16 @@
        <p>Total Score: {{queryObj.totalScore}} </p>
 
     </div>
+    <a class="twitter-share-button"
+  v-bind:href="'https://twitter.com/intent/tweet?text=My%20Hyper%20Typing%20Monster%20Language%20Scores%0aAccuracy:%20' + 
+  queryObj.accuracy +
+  '%0aChar%20Count:%20' +
+  queryObj.charCount +
+  '%0aCPM%20Average:%20' +
+  queryObj.cpm +
+  '%0aTotal%20Score:%20'+ 
+  queryObj.totalScore">
+Tweet</a>
    
   </div>
 </template>
