@@ -20,4 +20,8 @@ async function main() {
   }
 }
 
+async function test_tutorial(driver) {
+  
+}
+
 main()
