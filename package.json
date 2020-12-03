@@ -6,9 +6,11 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "echo hello"
+    "test": "node ./.github/tests/selenium/index.js ./screenshots",
+    "build-storage": "babel src/utils --out-dir tests/built_files"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.12.1",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
@@ -16,14 +18,20 @@
     "vue-router": "^3.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.8",
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "^4.5.8",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "esm": "^3.2.25",
     "raw-loader": "^4.0.2",
+    "selenium-webdriver": "^4.0.0-alpha.7",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

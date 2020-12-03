@@ -1,9 +1,9 @@
 name: Test Code
-on: pull_request
+on: [pull_request, workflow_dispatch]
 
 jobs:
   unittest:
-    runs-on: ubuntu-18.04
+    runs-on: windows-2019
     steps:
       - name: Checkout the source branch of the PR
         uses: actions/checkout@v2
@@ -13,5 +13,13 @@ jobs:
         run: npm install
       - name: Lint code
         run: npm run lint
+      - name: Start server
+        run: num run serve
       - name: Run tests
         run: npm run test
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v2
+        with: 
+          name: screenshots 
+          path: ./screenshots # path is listed in package.json's test task
+          
