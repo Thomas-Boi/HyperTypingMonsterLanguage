@@ -2,7 +2,7 @@ name: Test Code
 on: [pull_request, workflow_dispatch]
 
 jobs:
-  unittest:
+  setup:
     runs-on: windows-2019
     steps:
       - name: Checkout the source branch of the PR
@@ -11,10 +11,18 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name}}
       - name: Install dependencies
         run: npm install
-      - name: Lint code
-        run: npm run lint
+  start-server:
+    runs-on: windows-2019
+    needs: setup
+    steps:
       - name: Start server
         run: npm run serve
+  unittest:
+    runs-on: windows-2019
+    needs: setup
+    steps:
+      - name: Lint code
+        run: npm run lint
       - name: Run tests
         run: npm run test
       - name: Upload screenshots
