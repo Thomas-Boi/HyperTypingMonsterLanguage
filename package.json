@@ -6,8 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "py ./.github/tests/selenium/ui_tests.py ./.github/tests/selenium/geckodriver-v0.27.0-win64/geckodriver.exe ./screenshots",
-    "build-storage": "babel src/utils --out-dir tests/built_files"
+    "run-selenium": "py ./.github/tests/selenium/ui_tests.py ./.github/tests/selenium/geckodriver-v0.27.0-win64/geckodriver.exe ./screenshots",
+    "test": "start-server-and-test serve http://localhost:8080/ run-selenium"
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
@@ -32,6 +32,7 @@
     "esm": "^3.2.25",
     "raw-loader": "^4.0.2",
     "selenium-webdriver": "^4.0.0-alpha.7",
+    "start-server-and-test": "^1.11.6",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

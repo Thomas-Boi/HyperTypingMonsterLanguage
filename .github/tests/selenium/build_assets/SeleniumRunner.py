@@ -44,8 +44,12 @@ class SeleniumRunner:
         """
         self.driver = WebDriver(executable_path=geckodriver_path)
         self.driver.get(self.LOCALHOST_URL)
+
         self.screenshot_path = screenshot_path
-        os.mkdir(screenshot_path)
+        try:
+            os.mkdir(screenshot_path)
+        except FileExistsError:
+            pass
 
         assert "Hyper Typing Monster Language" in self.driver.title
 
