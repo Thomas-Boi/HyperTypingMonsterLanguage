@@ -147,7 +147,7 @@ export default {
   .typing-box {
     height: 30vh;
     width: 50vw;
-    background-color: grey;
+    background-color:black;
     transition-duration: 1s;
     position: fixed;
     z-index: 3;
