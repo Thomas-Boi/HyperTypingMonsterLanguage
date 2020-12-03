@@ -52,6 +52,7 @@ class SeleniumRunner:
             pass
 
         assert "Hyper Typing Monster Language" in self.driver.title
+        print("Page loaded successfully")
 
 
     def take_screenshot(self, imgName):
@@ -64,5 +65,10 @@ class SeleniumRunner:
         finally:
             self.driver.quit()
     
+    def test_stats(self):
+        print("Testing stats page")
+        stats_btn = self.driver.find_element_by_xpath("/html/body/div/div/main/section[1]/button[5]/a")
+        stats_btn.click()
+        self.take_screenshot("stats.png")
 
         

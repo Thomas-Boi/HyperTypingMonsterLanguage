@@ -9,8 +9,15 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name}}
+      - name: Setup Python v3.8
+        uses: actions/setup-python@v2
+        with: 
+          python-version: 3.8
       - name: Install dependencies
-        run: npm install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./.github/tests/selenium/requirements.txt
+          npm install
       - name: Lint code
         run: npm run lint
       - name: Run tests
