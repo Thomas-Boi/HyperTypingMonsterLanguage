@@ -1,16 +1,16 @@
 <template>
   <div>
-    <ViewButton text="Menu" target="Home"/>
-   <h1>You {{queryObj.result}}</h1>
-    <div id="inner">
-       
-       <p>Accuracy: {{queryObj.accuracy}}</p>
-       <p>Char Count: {{queryObj.charCount}}</p>
-       <p>CPM Average: {{queryObj.cpm}} </p>
-       <p>Total Score: {{queryObj.totalScore}} </p>
-
-    </div>
-    <a class="twitter-share-button"
+    
+   
+   <div id="outer">
+     <ViewButton text="Menu" target="Home"/>
+      <div id="inner">
+        <h1>YOU {{queryObj.result}}!</h1>     
+        <p>Accuracy: {{queryObj.accuracy}}</p>
+        <p>Char Count: {{queryObj.charCount}}</p>
+        <p>CPM Average: {{queryObj.cpm}} </p>
+        <p>Total Score: {{queryObj.totalScore}} </p>
+        <a class="twitter-share-button"
   v-bind:href="'https://twitter.com/intent/tweet?text=My%20Hyper%20Typing%20Monster%20Language%20Scores%0aAccuracy:%20' + 
   queryObj.accuracy +
   '%0aChar%20Count:%20' +
@@ -20,6 +20,9 @@
   '%0aTotal%20Score:%20'+ 
   queryObj.totalScore">
 Tweet</a>
+      </div>
+    </div>
+    
    
   </div>
 </template>
@@ -44,9 +47,14 @@ export default {
     #inner{
        
         background-color:#aaa;
-        padding:20px;
+        padding:10%;
         margin:5%;
-           
+        justify-content: space-evenly;
+    }
+    #outer{
+      background-image:url('../assets/background.png');
+      padding:15%;
+
     }
     p{
       display:flex;
