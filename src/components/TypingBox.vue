@@ -76,7 +76,7 @@ export default {
 
     finishGame(result) {
       clearInterval(this.cpmUpdater)
-      let charCount = this.cleanedText.length
+      let charCount = this.curCharIndex
       let totalCharType = charCount + this.mistypedCount
       let accuracy = (charCount / totalCharType).toFixed(2)
 

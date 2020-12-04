@@ -18,8 +18,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r ./.github/tests/selenium/requirements.txt
           npm install
-      # - name: Lint files
-      #   run: npm run lint
+      - name: Lint files
+        run: npm run lint
       - name: Run tests
         run: npm run test
       - name: Upload screenshots
