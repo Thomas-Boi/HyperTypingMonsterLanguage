@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Bootstrap Carousel Example</title>
+</head>
+
+<body>
+	<header>
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+			<a class="navbar-brand" href="#">Carousel</a>
+		</nav>
+	</header>
+	<main role="main">
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+			</ol>
+			<div class="carousel-inner">
+				<div class="carousel-item text-center active">
+					<img class="img-fluid first-slide" src="sadcat.jpg" alt="First slide">
+					<div class="container">
+						<div class="carousel-caption">
+							<h1>Example headline.</h1>
+							<p>This is a sentence.</p>
+						</div>
+					</div>
+				</div>
+				<div class="carousel-item text-center">
+					<img class="img-fluid" src="catcook.jpg" alt="First slide">
+					<div class="container">
+						<div class="carousel-caption">
+							<h1>Another example headline.</h1>
+							<p>This is another sentence.</p>
+						</div>
+					</div>
+				</div>
+				<div class="carousel-item text-center">
+					<img class="img-fluid" src="arrowcat.png" alt="First slide">
+					<div class="container">
+						<div class="carousel-caption">
+							<h1>One more for good measure.</h1>
+							<p>This is the last sentence, I swear.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+			<a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+		</div>
+	</main>
+</body>
+
+</html>
